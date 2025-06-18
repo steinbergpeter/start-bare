@@ -35,7 +35,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <div className='p-2 flex gap-2 text-lg'>
           <Link to='/'>Index</Link>
         </div>
-
         {children}
         <TanStackRouterDevtools position='bottom-right' />
         <Scripts />

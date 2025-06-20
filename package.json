@@ -9,6 +9,10 @@
     "start": "vite start"
   },
   "dependencies": {
+    "@mdxeditor/editor": "^3.36.0",
+    "@prisma/client": "6.10.1",
+    "@prisma/extension-accelerate": "^2.0.1",
+    "@radix-ui/react-navigation-menu": "^1.2.13",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-router": "^1.121.21",
     "@tanstack/react-start": "^1.121.23",
@@ -19,9 +23,12 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.3.1",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "zod-prisma-types": "^3.2.4"
   },
   "devDependencies": {
+    "@fontsource-variable/dm-sans": "^5.2.6",
+    "@fontsource-variable/jetbrains-mono": "^5.2.6",
     "@tailwindcss/postcss": "^4.1.10",
     "@tailwindcss/vite": "^4.0.8",
     "@tanstack/react-router-devtools": "^1.121.21",
@@ -29,7 +36,9 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "postcss": "^8.5.6",
+    "prisma": "^6.10.1",
     "tailwindcss": "^4.0.8",
+    "tsx": "^4.20.3",
     "tw-animate-css": "^1.3.4",
     "typescript": "^5.7.2",
     "vite": "^6.3.5",

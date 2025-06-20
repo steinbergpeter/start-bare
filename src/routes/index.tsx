@@ -1,49 +1,22 @@
 // src/routes/index.tsx
-import * as fs from 'node:fs';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
-import { createServerFn } from '@tanstack/react-start';
 import { Button } from '@/components/ui/button';
-
-const filePath = 'count.txt';
-
-async function readCount() {
-  return parseInt(
-    await fs.promises.readFile(filePath, 'utf-8').catch(() => '0')
-  );
-}
-
-const getCount = createServerFn({
-  method: 'GET',
-}).handler(() => {
-  return readCount();
-});
-
-const updateCount = createServerFn({ method: 'POST' })
-  .validator((d: number) => d)
-  .handler(async ({ data }) => {
-    const count = await readCount();
-    await fs.promises.writeFile(filePath, `${count + data}`);
-  });
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   component: Home,
-  loader: async () => await getCount(),
 });
 
 function Home() {
-  const router = useRouter();
-  const state = Route.useLoaderData();
-  const handleClick = () => {
-    updateCount({ data: 1 }).then(() => {
-      router.invalidate();
-    });
-  };
+  const handleClick = () => {};
 
   return (
-    <div className='m-4'>
-      <Button type='button' onClick={handleClick} variant='destructive'>
-        Add 1 to {state}?
-      </Button>
+    <div className='flex items-center justify-center flex-col h-screen gap-4'>
+      <h1 className='text-xl font-semibold'>Notes made for Developers</h1>
+      <Link to='/todos'>
+        <Button variant='link' onClick={handleClick} size='sm'>
+          Go to Notes
+        </Button>
+      </Link>
     </div>
   );
 }

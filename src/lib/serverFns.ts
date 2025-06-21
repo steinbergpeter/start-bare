@@ -1,18 +1,22 @@
-import type { Todo } from '@/generated/zod';
+import {
+  TodoCreateInputSchema,
+  TodoUpdateInputSchema,
+  type Todo,
+} from '@/generated/zod';
 import { prisma } from '@/lib/db';
 import {
-  createTodoSchema,
   idSchema,
-  updateTodoSchema,
-  type CreateTodoData,
   type IdData,
-  type UpdateTodoData,
+  type TodoCreateInput,
+  type TodoCreateOutput,
+  type TodoUpdateInput,
+  type TodoUpdateOutput,
 } from '@/validations/todos';
 import { createServerFn } from '@tanstack/react-start';
 
-/*************
- * Get Todos *
- ************/
+/*****************
+ * Get All Todos *
+ *****************/
 
 const getTodosHandler = async (): Promise<Array<Todo>> =>
   await prisma.todo.findMany({
@@ -25,9 +29,9 @@ export const getTodos = createServerFn({
   method: 'GET',
 }).handler(getTodosHandler);
 
-/******************
- * Get Todo By ID *
- *****************/
+/********************
+ * Get A Todo By ID *
+ ********************/
 
 const getTodoHandler = async ({
   data,
@@ -46,54 +50,41 @@ export const getTodoById = createServerFn({
 
 /***************
  * Create Todo *
- **************/
+ ***************/
 
-const createTodoHandler = async ({
-  data,
-}: {
-  data: CreateTodoData;
-}): Promise<Todo> =>
-  await prisma.todo.create({
-    data: {
-      title: data.title,
-      content: data.content,
-    },
-  });
+const TodoCreateHandler = async ({ data }: TodoCreateInput): TodoCreateOutput =>
+  await prisma.todo.create({ data });
 
-export const createTodo = createServerFn({
+export const CreateTodo = createServerFn({
   method: 'POST',
 })
-  .validator(createTodoSchema)
-  .handler(createTodoHandler);
+  .validator(TodoCreateInputSchema)
+  .handler(TodoCreateHandler);
 
 /***************
  * Update Todo *
- **************/
+ ***************/
 
-const updateTodoHandler = async ({
-  data,
-}: {
-  data: UpdateTodoData;
-}): Promise<Todo> =>
+const TodoUpdateHandler = async ({
+  data: { id, title, content, completed },
+}: TodoUpdateInput): TodoUpdateOutput =>
   await prisma.todo.update({
-    where: { id: data.id },
-    data: { title: data.title, content: data.content },
+    where: { id: id as string },
+    data: { title, content, completed },
   });
 
-export const updateTodo = createServerFn({
+export const UpdateTodo = createServerFn({
   method: 'POST',
 })
-  .validator(updateTodoSchema)
-  .handler(updateTodoHandler);
+  .validator(TodoUpdateInputSchema)
+  .handler(TodoUpdateHandler);
 
 /***************
  * Delete Todo *
- **************/
+ ***************/
 
 const deleteTodoHandler = async ({ data }: { data: IdData }): Promise<Todo> =>
-  await prisma.todo.delete({
-    where: { id: data.id },
-  });
+  await prisma.todo.delete({ where: { id: data.id } });
 
 export const deleteTodo = createServerFn({
   method: 'POST',

@@ -1,8 +1,8 @@
-import type { TodoCreateInput, TodoUpdateInput } from '@/validations/todos';
-import { Button } from './ui/button';
-import { useMemo, useState, type ChangeEvent, type FormEvent } from 'react';
-import { Input } from './ui/input';
 import { CreateTodo, UpdateTodo } from '@/lib/serverFns';
+import type { TodoCreateInput, TodoUpdateInput } from '@/validations/todos';
+import { useMemo, useState, type FormEvent } from 'react';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 type TodoFormProps = {
   todo?: TodoUpdateInput; // Only passed for update operations
@@ -10,11 +10,11 @@ type TodoFormProps = {
 
 const TodoForm = ({ todo }: TodoFormProps) => {
   // Check if this is an update operation and initialize form data in one step
-  const isUpdateOperation = todo !== undefined;
+  const isUpdateOperation = useMemo(() => todo !== undefined, [todo]);
 
   const initTodo = useMemo(() => {
     return isUpdateOperation
-      ? (todo! as TodoUpdateInput)
+      ? (todo as TodoUpdateInput)
       : ({
           data: {
             title: '',

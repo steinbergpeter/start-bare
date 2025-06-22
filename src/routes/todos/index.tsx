@@ -14,7 +14,7 @@ function TodosComponent() {
     <div className='flex justify-start items-start flex-col h-screen gap-4 mt-8 mx-8'>
       <div className='flex justify-between items-baseline w-full gap-2'>
         <h1 className='text-2xl font-semibold'>Todos</h1>
-        <Link to='/todos/create'>
+        <Link to='/todos/create' from='/todos'>
           <Button variant='outline' className='bg-secondary text-primary'>
             <Plus />
             Add Todo
